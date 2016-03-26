@@ -8,6 +8,16 @@
 
 function Ciphy() {
 
+  this.getFactorial = function(n) {
+    var result = 1;
+    for (var i = n; i > 0; i--) { // n*(n-1)*(n-2)...
+      result *= i;
+    }
+    return result;
+  }
+
+  
+
   this.getCharCodeArray = function(n, plaintext) {
     var arr = [];
     var plaintext_vector = [];
@@ -28,14 +38,13 @@ function Ciphy() {
   this.getCiphertext = function(cipher, plaintext) {
     var plainchar = this.getCharCodeArray(cipher[0].length, plaintext.toUpperCase()); // array of n length vectors
     var ciphertext = "";
-    var sum = 0;
-    for (var k = 0; k < plainchar.length; k++) { // Loop through each plaintext vector
+    var sum = 0; 
+    for (var k = 0; k < plainchar.length; k++) { // Loop through each plaintext vector, n length
       for (var i = 0; i < cipher.length; i++) { // Loop through each row, n length
         for (var j = 0; j < cipher[i].length; j++) { // Loop through each row entry, n length.
           sum += cipher[i][j]*plainchar[k][j];
         }
-        if (sum > 132) 
-          sum %= 132;
+
         ciphertext += String.fromCharCode(sum);
         sum = 0;
       }
@@ -47,6 +56,10 @@ function Ciphy() {
 var cipher = [[1, 0],
               [2, 1]];
 
+var cipher2 = [[2,0,0],
+              [0,-2,0],
+              [0,0,2]];
+
 var ciphy = new Ciphy();
 
-ciphy.getCiphertext(cipher, "hellothere");
+ciphy.getCiphertext(cipher2, "hellothere");
