@@ -1,6 +1,6 @@
 /*
   
-  Ciphy: simple Hill Cipher by Anwar Ali-Ahmad, Cameron Yang
+  Ciphy: simple Hill Cipher by Anwar Ali-Ahmad
 
   Copyright, MIT License
 
@@ -8,7 +8,7 @@
 
 function Ciphy() {
 
-  this.getFactorial = function(n) {
+  this.factorial = function(n) { // n!
     var result = 1;
     for (var i = n; i > 0; i--) { // n*(n-1)*(n-2)...
       result *= i;
@@ -16,9 +16,7 @@ function Ciphy() {
     return result;
   }
 
-  
-
-  this.getCharCodeArray = function(n, plaintext) {
+  this.charCodeArray = function(n, plaintext) {
     var arr = [];
     var plaintext_vector = [];
     while(plaintext.length % n != 0 ) { //Adding extra entries until plaintext can fully be divided into groups of n
@@ -35,9 +33,11 @@ function Ciphy() {
     return arr;
   }
 
-  this.getCiphertext = function(cipher, plaintext) {
-    var plainchar = this.getCharCodeArray(cipher[0].length, plaintext.toUpperCase()); // array of n length vectors
+  this.hillCipher = function(cipher, plaintext, return_char) {
+    var plainchar = this.charCodeArray(cipher[0].length, plaintext.toUpperCase()); // array of n length vectors
     var ciphertext = "";
+    var cipherchar = [];
+    return_char = return_char || false;
     var sum = 0; 
     for (var k = 0; k < plainchar.length; k++) { // Loop through each plaintext vector, n length
       for (var i = 0; i < cipher.length; i++) { // Loop through each row, n length
@@ -46,11 +46,16 @@ function Ciphy() {
         }
 
         ciphertext += String.fromCharCode(sum);
+        cipherchar.push(sum);
         sum = 0;
       }
     }
-    console.log(ciphertext);
+    if (return_char)
+      return cipherchar;
+    return ciphertext;
   }
+
+  this
 }
 
 var cipher = [[1, 0],
@@ -59,7 +64,20 @@ var cipher = [[1, 0],
 var cipher2 = [[2,0,0],
               [0,-2,0],
               [0,0,2]];
+var cipher2_inv = [ [1/2, 0, 0],
+                    [0, -1/2, 0],
+                    [0, 0, 1/2]
+                  ]; 
 
 var ciphy = new Ciphy();
 
-ciphy.getCiphertext(cipher2, "hellothere");
+var plaintext = "hellothere";
+var charr = ciphy.hillCipher(cipher2, plaintext, true);
+var text = ciphy.hillCipher(cipher2, plaintext);
+console.log(charr);
+var text2 = ciphy.hillCipher(cipher2_inv, text, true);
+console.log(text2);
+
+
+
+
