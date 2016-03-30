@@ -4,8 +4,9 @@
 ##About
 
 Ciphy.js is an easy way to encode messages. It supports:
-1. Hill Ciphering
-2. _Next up: substitution ciphering
+
+1.  Hill Ciphering
+2. _Next up: substitution ciphering_
 
 ##Glossary
 * __Plaintext__: Unencoded message
